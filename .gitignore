@@ -1,0 +1,23 @@
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Android / Gradle
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/*.log
+android/.idea/
+android/captures/
+*.iml
+*.hprof
+*.apk
+*.aab
+
+# Build output we never want in git
+results/run.err
+
+# OS noise
+.DS_Store
+Thumbs.db

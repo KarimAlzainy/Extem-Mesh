@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The UI is drawn by Jetpack Compose, so the platform theme only needs to provide
+         a window without an action bar. -->
+    <style name="AppTheme" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#101418</item>
+        <item name="android:statusBarColor">#101418</item>
+    </style>
+</resources>
