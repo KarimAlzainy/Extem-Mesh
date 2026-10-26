@@ -1,0 +1,19 @@
+﻿{
+  "name": "extem-mesh",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "EXTEM-Mesh: reference implementation and reproducible simulation of a low-power delay-tolerant BLE mesh protocol",
+  "scripts": {
+    "test": "node --test",
+    "demo": "node src/cli/demo.js",
+    "experiments": "node src/cli/run.js",
+    "report": "node src/cli/run.js",
+    "energy": "node src/cli/energy-table.js",
+    "query": "node src/cli/query.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
+

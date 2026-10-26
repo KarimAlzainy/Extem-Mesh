@@ -1,0 +1,5 @@
+baseline,metric,diff,lo,hi,p
+"epidemic","PDR (district)",0.4239,0.4109,0.4352,0.0002
+"spray","PDR (district)",-0.0424,-0.0482,-0.0367,0.0002
+"extem-cont","PDR (district)",-0.0424,-0.0482,-0.0367,0.0002
+"extem-fixed35","PDR (district)",0.1432,0.1310,0.1558,0.0002

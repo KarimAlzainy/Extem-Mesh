@@ -1,0 +1,10 @@
+parameter,multiplier,extraPercent,savingsVsContinuous
+"none (nominal)",1,4.7136,
+"awakeMa x0.5",0.5000,2.5920,55.9435
+"awakeMa x1.5",1.5000,6.8352,64.7367
+"deepSleepMa x0.5",0.5000,5.2793,63.4225
+"deepSleepMa x1.5",1.5000,4.1478,61.7123
+"scanRadioMa x0.5",0.5000,4.4543,62.2784
+"scanRadioMa x1.5",1.5000,4.9729,63.0496
+"batteryMah x0.5",0.5000,9.4271,62.6892
+"batteryMah x1.5",1.5000,3.1424,62.6892
