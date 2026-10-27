@@ -8,7 +8,7 @@ simulation that measures whether it actually works.
 > |---|---|
 > | Protocol + simulator (`src/`) | **runnable and tested** — `npm test`, `npm run report` |
 > | Measured results (`results/`) | **generated** from 226 seeded runs, reproducible |
-> | Android prototype (`android/`) | **written, not compiled here** — needs Android Studio + 3 phones |
+> | Android prototype (`android/`) | **Stage 1 builds and runs** — APK built with AGP 9.4.1 / Gradle 9.6 / JDK 17. A full message exchange between two emulators over virtual Bluetooth is logged in `evidence/emulator/`. The real two-phone BLE radio link still has to be confirmed on physical phones |
 > | Poster edits (`docs/POSTER_EDITS.md`) | ready to apply |
 
 ## Headline numbers (sparse district, 40 phones, 12 seeds each)
@@ -41,7 +41,7 @@ Four steps, repeated once per second on every phone:
 
 1. **DISCOVER** a peer in BLE range.
 2. **EXCHANGE** summary vectors — "what do you already have?".
-3. **STORE** anything new in an encrypted local cache.
+3. **STORE** anything new in the local cache (encrypted from Stage 4).
 4. **RELAY** copies onward at the next encounter, subject to a copy budget and a TTL.
 
 The research question is not "does store-and-forward work" — it does, and Bridgefy,
@@ -67,8 +67,9 @@ src/sim/        the protocol (engine.js) and temporal hop analysis (hops.js)
 src/cli/        experiments, statistics, report generation, demo
 tests/          16 tests, including the proof that fixed schedules can never meet
 results/        REPORT.md, raw-runs.csv, charts/*.svg  (regenerate, don't hand-edit)
-android/        Kotlin prototype: BLE transport, crypto, quorum service  (see its README)
-docs/           HOW_IT_WORKS.md, JUDGE_QA.md, POSTER_EDITS.md
+android/        Kotlin app, Stage 1: BLE link, permissions, foreground service  (see its README)
+evidence/       two-emulator run: CSV logs + screenshots (virtual Bluetooth, not radio)
+docs/           HOW_IT_WORKS.md, EXPLAINED.md, JUDGE_QA.md, POSTER_EDITS.md
 ```
 
 ## Honesty rules this repo follows
@@ -77,13 +78,14 @@ docs/           HOW_IT_WORKS.md, JUDGE_QA.md, POSTER_EDITS.md
 2. Hardware constants are assumptions and are re-run at 0.5× and 1.5× (report §7).
 3. Messages that never had a full lifetime are excluded, and the exclusion is stated.
 4. Messages whose destination is unreachable within the TTL are a separate bucket.
-5. Nothing in `android/` is claimed as measured until it runs on three phones.
+5. Nothing in `android/` is claimed as *radio* behaviour until it runs on physical phones. The Stage 1 app is built and its full exchange ran between two emulators over virtual Bluetooth — that is app logic, not radio.
 
 ## Limitations
 
 - Radio range, connection stability and current draw are modelled, not measured.
 - Android only: iOS suspends BLE advertising in the background.
-- Payloads are encrypted (AES-GCM), but sender identity is not yet signed.
+- Payloads are **designed** to be encrypted with AES-GCM (Stage 4); the current Stage 1 app sends plaintext over a live link only, and sender identity is not signed.
+- The Android app is Stage 1: it links two phones and shows messages, but does not store them for later yet (Stage 2) and does not duty-cycle the radio (Stage 3).
 - The 40-phone district is a scenario, not a measurement of a specific place.
 
 ## Credits

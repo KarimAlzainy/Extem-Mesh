@@ -30,7 +30,7 @@ JavaScript (used for the measured numbers on the poster) and an Android app in K
 
 | Stage | What it adds | Status |
 | --- | --- | --- |
-| 1 | Real BLE link between two phones, permissions, foreground service | **built, needs a two-phone test** |
+| 1 | Real BLE link between two phones, permissions, foreground service | **built, runs on two emulators; needs a two-phone test** |
 | 2 | Store-and-forward: Room database, summary vectors, TTL, CSV log | not started |
 | 3 | Duty cycling (3 profiles) + battery logging | not started |
 | 4 | AES-GCM encryption with a shared passphrase | not started |
@@ -160,6 +160,10 @@ the statistics helpers are correct.
 | `charts/*.svg` | The three figures used on the poster (PDR by policy, PDR by hops, energy trade-off). |
 | `run.err` | Standard-error output of the last suite run (kept so a crash could be diagnosed). |
 
+`evidence/emulator/` is the other evidence folder: the raw `extem-events.csv` files and
+screenshots from two emulators that exchanged messages over virtual Bluetooth. Its own
+README explains exactly what that does and does not prove.
+
 Measured headline numbers (12 seeds, 226 runs total):
 
 - EXTEM quorum (5,7): **84.5 % ± 0.6 PDR**, **4.71 % extra battery**, **31 % radio duty**,
@@ -176,6 +180,10 @@ Measured headline numbers (12 seeds, 226 runs total):
 > Bluetooth LE link between two phones, exchanges text messages over it, and logs what
 > happened to a CSV file. It is **Stage 1**. It does not yet store messages for later,
 > it does not yet duty-cycle the radio, and it is not encrypted.
+>
+> It has been run on **two emulators** whose virtual Bluetooth carried a full exchange
+> (logs in `evidence/emulator/`). No radio was involved there, so the two-physical-phone
+> test is still the one that counts.
 
 ### 5.1 Build files
 

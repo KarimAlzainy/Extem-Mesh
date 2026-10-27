@@ -79,7 +79,30 @@ E:\Android\SDK\platform-tools\adb.exe install -r app\build\outputs\apk\debug\app
 
 ---
 
-## 5. Two-phone test (exact steps)
+## 5. Tests
+
+### 5.1 Already verified here (emulator, virtual Bluetooth — not radio)
+
+The app was built and run on **two API 37 emulators** that talked to each other through the
+Android Emulator's virtual Bluetooth stack. Full logs and screenshots are in
+`../evidence/emulator/`. What those logs prove:
+
+- advertising starts, scanning finds the peer by service UUID and reads its node ID from the
+  scan response;
+- a GATT connection is made, the MTU is negotiated, notifications are enabled;
+- `HELLO` / `TEXT` / `BYE` frames travel **both ways** in one connection, chunked, and both
+  phones end up with both messages in the chat;
+- the smaller-ID-dials rule produced exactly one connection (client = `18B06623`,
+  server = `ABDF5300`);
+- with the app sent to the background, scanning and linking kept running and the service
+  stayed `isForeground=true`;
+- "Stop mesh" shuts everything down and writes `service,stop` / `server,stopped` /
+  `advertise,stopped`.
+
+What the emulator **cannot** prove: real range, real RSSI, real battery cost, and how vendor
+Bluetooth stacks (Samsung, Xiaomi, …) behave. That is what the next test is for.
+
+### 5.2 Two-phone test (exact steps)
 
 1. Install the app on **both** phones and open it. Each shows a different `node A1B2C3D4`
    style ID. Write both IDs down.
@@ -102,11 +125,12 @@ E:\Android\SDK\platform-tools\adb.exe install -r app\build\outputs\apk\debug\app
 
    Expected: phone A's chat shows both messages (its own on the right, B's on the left),
    and the same on phone B.
-9. **Background test:** press the home button on both phones and lock one of them. Repeat
-   step 7. Messages still go through, because the work happens in the foreground service.
+9. **Background test:** queue a message (step 7), then press the home button on both phones
+   and lock one of them. The message still goes through within ~15 s, because the work
+   happens in the foreground service and not in the screen.
 10. Tap **Stop mesh** to shut the radio down. The notification disappears.
 
-### If it does not link
+#### If it does not link
 
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
